@@ -15,3 +15,6 @@ docker-compose.override.yml
 
 # Misc
 .DS_Store
+
+# Others
+(x) frontend/
