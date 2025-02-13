@@ -1,0 +1,17 @@
+# Python
+*.pyc
+__pycache__/
+env/
+venv/
+
+# Node.js / React
+node_modules/
+build/
+
+# Docker
+*.log
+*.env
+docker-compose.override.yml
+
+# Misc
+.DS_Store
