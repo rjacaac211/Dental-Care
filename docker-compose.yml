@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.9"
 services:
   frontend:
     build: ./frontend
@@ -11,3 +11,20 @@ services:
     build: ./backend
     ports:
       - "8000:8000"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_USER: your_user_name
+      POSTGRES_PASSWORD: your_password
+      POSTGRES_DB: rj_rental_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

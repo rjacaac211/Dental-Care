@@ -1,4 +1,3 @@
-# backend/agents/db_agent.py
 class DBAgent:
     def book_appointment(self, patient_id: int, date: str, time: str):
         # Integrate with your database logic here
