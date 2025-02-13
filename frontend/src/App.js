@@ -1,25 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+    const [backendMessage, setBackendMessage] = useState("");
+
+    useEffect(() => {
+        fetch("http://localhost:8000/api/hello")
+            .then(response => response.json())
+            .then(data => setBackendMessage(data.message))
+            .catch(error => console.error("Error fetching data: ", error));
+    }, []);
+
+    return (
+        <div style={{ textAlign: 'center', marginTop: '50px' }}>
+            <h1>Welcome to RJ Dental Care PH</h1>
+            <p>This is the frontend of our supervised AI agent architecture.</p>
+            <p>Backend says: {backendMessage}</p>
+        </div>
+    );
+};
 
 export default App;
