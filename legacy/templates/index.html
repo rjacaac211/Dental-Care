@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oral Disease Classification</title>
+    <style>
+        /* Minimalist Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 20px;
+            color: #444;
+        }
+
+        .container {
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            max-width: 500px;
+        }
+
+        /* Custom file input styling */
+        .file-input {
+            display: none;
+        }
+
+        .file-label {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #ffffff;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .file-label:hover {
+            background-color: #45a049;
+        }
+
+        #file-name {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #image-preview {
+            display: none;
+            margin: 20px auto;
+            max-width: 300px;
+            max-height: 300px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <h1>Oral Disease Classification</h1>
+    <div class="container">
+        <form method="POST" action="/" enctype="multipart/form-data">
+            <!-- Custom file input -->
+            <label for="file-input" class="file-label">Choose Image</label>
+            <input type="file" name="file" id="file-input" accept="image/*" class="file-input" required>
+            <div id="file-name">No file chosen</div>
+
+            <!-- Image Preview -->
+            <img id="image-preview" src="#" alt="Image Preview">
+            <br>
+
+            <!-- Submit Button -->
+            <button type="submit">Predict</button>
+        </form>
+    </div>
+
+    <script>
+        // Custom file input display and image preview
+        const fileInput = document.getElementById('file-input');
+        const fileNameDisplay = document.getElementById('file-name');
+        const imagePreview = document.getElementById('image-preview');
+
+        fileInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                // Display the file name
+                fileNameDisplay.textContent = file.name;
+
+                // Show image preview
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                fileNameDisplay.textContent = 'No file chosen';
+                imagePreview.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
