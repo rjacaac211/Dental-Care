@@ -1,32 +1,49 @@
 import React, { useState } from "react";
+import axios from "axios"; // Make sure you have axios installed
 
 const ChatBox = () => {
   const [chatInput, setChatInput] = useState("");
   const [messages, setMessages] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!chatInput.trim()) return;
 
     const userMessage = chatInput.trim();
-    let botResponse = "";
-    const lowerInput = userMessage.toLowerCase();
-
-    if (lowerInput === "book appointment") {
-      botResponse = "Appointment booked successfully.";
-    } else if (lowerInput === "get appointments") {
-      botResponse = "Appointments: [ { id: 1, date: '2025-03-01', time: '10:00 AM' } ]";
-    } else if (lowerInput === "web search") {
-      botResponse = "Search results for 'web search' will appear here.";
-    } else {
-      botResponse = "I'm sorry, I didn't understand that command.";
-    }
-
-    setMessages([
-      ...messages,
-      { sender: "You", text: userMessage },
-      { sender: "Bot", text: botResponse },
-    ]);
+    // Add the user's message to the conversation
+    setMessages([...messages, { sender: "You", text: userMessage }]);
     setChatInput("");
+    setIsLoading(true);
+
+    try {
+      // Make a request to your FastAPI endpoint
+      const response = await axios.post("http://localhost:8000/api/chat", {
+        message: userMessage,
+      });
+
+      const botResponse = response.data.final_response || response.data.final_response || "No response";
+      // Update the conversation with the bot's response
+      setMessages((prev) => [
+        ...prev,
+        { sender: "Bot", text: botResponse },
+      ]);
+    } catch (error) {
+      console.error("Error sending message:", error);
+      setMessages((prev) => [
+        ...prev,
+        { sender: "Bot", text: "Error processing your request." },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    // Send the message if user presses Enter
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSend();
+    }
   };
 
   return (
@@ -49,12 +66,15 @@ const ChatBox = () => {
           placeholder="Type your message..."
           value={chatInput}
           onChange={(e) => setChatInput(e.target.value)}
+          onKeyDown={handleKeyDown}
+          disabled={isLoading}
         />
         <button
           className="bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-600"
           onClick={handleSend}
+          disabled={isLoading}
         >
-          Send
+          {isLoading ? "Sending..." : "Send"}
         </button>
       </div>
     </div>
