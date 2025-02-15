@@ -1,10 +1,24 @@
-# backend/app/api/routes.py
 import os
-from fastapi import APIRouter, UploadFile, File
-from app.agents.supervisor_agent import SupervisorAgent
+from fastapi import APIRouter, HTTPException, Request, UploadFile, File
+
+from app.agents.cv_agent import CVAgent
+from app.agents.agent import run_agent
 
 router = APIRouter()
-supervisor = SupervisorAgent()
+
+@router.post("/chat")
+async def chat(request: Request):
+    data = await request.json()
+    message = data.get("message")
+    if not message:
+        raise HTTPException(status_code=400, detail="Message is required.")
+
+    final_response = run_agent(message)
+    return {"final_response": final_response}
+
+# Initialize the CVAgent with the model path.
+model_path = os.path.join(os.path.dirname(__file__), "../models/oral_disease_model.h5")
+cv_agent = CVAgent(model_path)
 
 @router.post("/predict")
 async def predict_image(file: UploadFile = File(...)):
@@ -19,24 +33,12 @@ async def predict_image(file: UploadFile = File(...)):
     print(f"File saved to: {file_location} (Size: {len(content)} bytes)")
     
     try:
-        prediction, confidence = supervisor.handle_image_prediction(file_location)
+        prediction, confidence = cv_agent.predict(file_location)
     except Exception as e:
-        # Log the detailed exception for debugging purposes
+        # Log the error for debugging.
         print(f"Error during prediction: {e}")
-        # For debugging, return the full error message (remove this in production)
         return {"error": f"Error in prediction: {str(e)}"}
     
-    # Optionally, you can comment out file removal for debugging so you can inspect the file
+    # Optionally, remove the temporary file after processing.
     os.remove(file_location)
     return {"prediction": prediction, "confidence": confidence}
-
-
-# @router.post("/book_appointment")
-# async def book_appointment(patient_id: int = Form(...), date: str = Form(...), time: str = Form(...)):
-#     result =  supervisor.handle_book_appointment(patient_id, date, time)
-#     return result
-
-# @router.get("/search_info")
-# async def search_info(query: str):
-#     result = supervisor.handle_information_search(query)
-#     return result
