@@ -1,8 +1,8 @@
 import os
 from fastapi import APIRouter, HTTPException, Request, UploadFile, File
 
-from app.agents.cv_agent import CVAgent
-from app.agents.agent import run_agent
+from app.core.cv_agent import CVAgent
+from app.core.agent import run_agent
 
 router = APIRouter()
 

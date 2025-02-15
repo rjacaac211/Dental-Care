@@ -4,7 +4,7 @@ from langchain_openai import ChatOpenAI
 from langgraph.prebuilt import create_react_agent
 
 # Import your custom PostgreSQL tool and search tool
-from app.agents.tool import QueryPostgreSQLTool, SearchTool
+from app.core.tool import QueryPostgreSQLTool, SearchTool
 
 def create_agent():
     """
