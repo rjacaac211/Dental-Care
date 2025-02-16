@@ -1,6 +1,6 @@
 # RJ Dental Care PH
 
-A simple AI-powered dental care application using **FastAPI** (for backend), **React** (for frontend), and **LangChain** for a ReAct agent that can either execute SQL queries on a PostgreSQL database or handle general dental search queries. It also includes ephemeral memory for multi-turn dialogues and a computer vision agent for oral disease prediction.
+An AI-powered dental care application by **RJ Dental Care PH**, a dental service provider offering both **onsite dental clinic** appointments and an **online AI assistant**. This system combines **FastAPI** (backend), **React** (frontend), and **LangChain** and **LangGraph** for an intelligent ReAct agent that can execute SQL queries on a PostgreSQL database or handle general dental inquiries. It also provides ephemeral memory for multi-turn dialogue and a computer vision agent for oral disease classification.
 
 ## Table of Contents
 - [Overview](#overview)
@@ -10,11 +10,11 @@ A simple AI-powered dental care application using **FastAPI** (for backend), **R
 - [Usage](#usage)
 
 ## Overview
-RJ Dental Care PH is an AI assistant that:
-1. **Executes SQL queries** on a PostgreSQL dental database (tables `patients` and `appointments`).
-2. **Answers general dental questions** (using a search tool).
-3. **Maintains ephemeral conversation** context via an in-memory store.
-4. **Performs image-based oral disease classification** using a computer vision model.
+**RJ Dental Care PH** is both a **dental clinic** offering onsite appointments and an **online AI assistant** that can:
+1. **Execute SQL queries** on a PostgreSQL database (tables `patients` and `appointments`).
+2. **Answer general dental questions** (via a search tool).
+3. **Maintain ephemeral conversation** context through an in-memory store.
+4. **Perform image-based oral disease classification** using a computer vision model.
 
 ## Features
 - **ReAct Agent**  
@@ -25,6 +25,18 @@ RJ Dental Care PH is an AI assistant that:
   Provides a chat UI that connects to the `/chat` endpoint. Supports image upload to `/predict`.
 - **Dockerized**  
   Both frontend and backend run as containers via Docker Compose.
+
+## Features
+- **Onsite Dental Clinic + AI Assistant**  
+  Manage and schedule clinic appointments onsite while leveraging the AI’s capabilities online.
+- **LangChain ReAct Agent**  
+  Employs a ReAct agent to interpret user queries—either calling the **PostgreSQL** tool for database actions or the **Search** tool for dental health info.
+- **Ephemeral Memory**  
+  Implements a `WindowMemoryManager` to store conversation context in memory for each user session.
+- **Computer Vision for Disease Prediction**  
+  A dedicated `cv_agent.py` that identifies oral diseases from images, returning predictions and confidence scores.
+- **Dockerized Deployment**  
+  Frontend (React), backend (FastAPI), and database all run via Docker Compose for a seamless setup.
 
 ## Project Structure
 ```bash
@@ -126,3 +138,32 @@ Create a .env file (or set system environment variables) with the following cont
     - Returns JSON with `{"prediction": "...", "confidence": ...}`.
 - Ephemeral Memory:
     - The frontend stores a session_id (e.g. in localStorage) to maintain conversation context across messages.
+
+
+## Usage
+- Chat Endpoint (`POST /api/chat`)
+  - Send JSON:
+  ```json
+  {
+    "session_id": "some-session-id",
+    "message": "Please execute: SELECT * FROM appointments;"
+  }
+  ```
+  - Response:
+  ```json
+  {
+    "final_response": "Query Results: [...]"
+  }
+  ```
+- Predict Endpoint (POST /api/predict)
+  - Upload an image to get a classification:
+  ```json
+  {
+    "prediction": "Caries or Gingivitis",
+    "confidence": 92.45
+  }
+  ```
+- Ephemeral Memory
+  - The frontend uses a session_id (e.g. localStorage) to maintain multi-turn dialogues in memory.
+
+With the onsite clinic and online AI assistant, RJ Dental Care PH provides comprehensive oral healthcare both in person and via an intelligent chat interface.
