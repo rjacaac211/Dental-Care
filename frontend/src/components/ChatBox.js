@@ -1,45 +1,47 @@
-import React, { useState } from "react";
-import axios from "axios"; // Make sure you have axios installed
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const ChatBox = () => {
   const [chatInput, setChatInput] = useState("");
   const [messages, setMessages] = useState([]);
+  const [sessionId, setSessionId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    // On mount, generate or retrieve session ID
+    let storedSession = localStorage.getItem("dental_session_id");
+    if (!storedSession) {
+      storedSession = `sess-${Date.now()}`;
+      localStorage.setItem("dental_session_id", storedSession);
+    }
+    setSessionId(storedSession);
+  }, []);
 
   const handleSend = async () => {
     if (!chatInput.trim()) return;
 
     const userMessage = chatInput.trim();
-    // Add the user's message to the conversation
-    setMessages([...messages, { sender: "You", text: userMessage }]);
+    setMessages((prev) => [...prev, { sender: "You", text: userMessage }]);
     setChatInput("");
     setIsLoading(true);
 
     try {
-      // Make a request to your FastAPI endpoint
+      // NOTE: We now send session_id
       const response = await axios.post("http://localhost:8000/api/chat", {
+        session_id: sessionId,
         message: userMessage,
       });
-
-      const botResponse = response.data.final_response || response.data.final_response || "No response";
-      // Update the conversation with the bot's response
-      setMessages((prev) => [
-        ...prev,
-        { sender: "Bot", text: botResponse },
-      ]);
+      const botResponse = response.data.final_response || "No response";
+      setMessages((prev) => [...prev, { sender: "Bot", text: botResponse }]);
     } catch (error) {
       console.error("Error sending message:", error);
-      setMessages((prev) => [
-        ...prev,
-        { sender: "Bot", text: "Error processing your request." },
-      ]);
+      setMessages((prev) => [...prev, { sender: "Bot", text: "Error processing your request." }]);
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleKeyDown = (e) => {
-    // Send the message if user presses Enter
     if (e.key === "Enter") {
       e.preventDefault();
       handleSend();
@@ -52,8 +54,8 @@ const ChatBox = () => {
         {messages.length === 0 ? (
           <p className="text-gray-600">Chat conversation will appear here...</p>
         ) : (
-          messages.map((msg, index) => (
-            <div key={index} className="mb-2">
+          messages.map((msg, idx) => (
+            <div key={idx} className="mb-2">
               <strong>{msg.sender}:</strong> {msg.text}
             </div>
           ))

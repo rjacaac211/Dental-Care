@@ -1,14 +1,18 @@
-# agent.py
 import os
 from langchain_openai import ChatOpenAI
 from langgraph.prebuilt import create_react_agent
 
-# Import your custom PostgreSQL tool and search tool
+# Tools
 from app.core.tool import QueryPostgreSQLTool, SearchTool
+from app.core.memory import WindowMemoryManager
+
+# Create a single memory store for ephemeral usage
+memory_store = WindowMemoryManager(window_size=10)
 
 def create_agent():
     """
-    Creates a ReAct agent with your QueryPostgreSQLTool (for SQL queries)
+    Creates a ReAct agent with ephemeral window memory in mind.
+    This agent uses tools QueryPostgreSQLTool (for SQL queries)
     and SearchTool (for general dental questions), injecting schema details
     and instructions about disallowing irrelevant queries.
     """
@@ -69,11 +73,42 @@ def create_agent():
     )
     return agent
 
-def run_agent(user_message: str) -> str:
+def run_agent(session_id: str, user_message: str) -> str:
     """
-    Runs the ReAct agent on a user message. Returns the final text from the agent.
+    Runs the ReAct agent on a user message, storing context in ephemeral memory.
+    :param session_id: Unique session ID (e.g., from user or UI).
+    :param user_message: The latest user message.
+    :return: The agent's final text response.
     """
     agent = create_agent()
-    response = agent.invoke({"messages": [{"role": "user", "content": user_message}]})
+
+    # Load conversation from memory
+    conversation_history = memory_store.load_conversation(session_id)
+
+    # Convert to the expected format: [("human", "..."), ("assistant", "..."), ...]
+    past_messages = []
+    for msg in conversation_history:
+        if msg["role"] == "user":
+            past_messages.append(("human", msg["content"]))
+        else:
+            past_messages.append(("assistant", msg["content"]))
+
+    # Add new user message
+    past_messages.append(("human", user_message))
+    memory_store.save_user_message(session_id, user_message)
+
+    # Now pass these messages to the agent
+    response = agent.invoke({"messages": past_messages})
     final_text = response["messages"][-1].content
+
+    # Save the assistant's response
+    memory_store.save_assistant_message(session_id, final_text)
+
     return final_text
+
+def clear_session(session_id: str):
+    """
+    Clears the ephemeral conversation for a given session_id.
+    """
+    memory_store.clear_conversation(session_id)
+

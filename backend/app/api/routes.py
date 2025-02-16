@@ -1,19 +1,23 @@
 import os
 from fastapi import APIRouter, HTTPException, Request, UploadFile, File
+from pydantic import BaseModel
 
 from app.core.cv_agent import CVAgent
 from app.core.agent import run_agent
 
 router = APIRouter()
 
+# Add a model for chat request, including session_id
+class ChatRequest(BaseModel):
+    session_id: str
+    message: str
+
 @router.post("/chat")
-async def chat(request: Request):
-    data = await request.json()
-    message = data.get("message")
-    if not message:
+async def chat_endpoint(req: ChatRequest):
+    if not req.message.strip():
         raise HTTPException(status_code=400, detail="Message is required.")
 
-    final_response = run_agent(message)
+    final_response = run_agent(req.session_id, req.message)
     return {"final_response": final_response}
 
 # Initialize the CVAgent with the model path.
