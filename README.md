@@ -1,6 +1,6 @@
 # RJ Dental Care PH
 
-An AI-powered dental care application by **RJ Dental Care PH**, a dental service provider offering both **onsite dental clinic** appointments and an **online AI assistant**. This system combines **FastAPI** (backend), **React** (frontend), and **LangChain** and **LangGraph** for an intelligent **ReAct AI Agent** that can execute SQL queries on a **PostgreSQL** database or handle general dental inquiries through **Web Search**. It also provides ephemeral **memory** for multi-turn dialogue to keep the AI Agent **context-aware**. Additionally, it includes a **file upload feature** for oral images, along with a **computer vision model** (MobileNetV2) for oral disease classification.
+An AI-powered dental care web application by **RJ Dental Care PH**, a dental service provider offering both **onsite dental clinic** appointments and an **online AI assistant**. This system combines **FastAPI** (backend), **React** (frontend), and **LangChain** and **LangGraph** for an intelligent **ReAct AI Agent** that can execute SQL queries on a **PostgreSQL** database or handle general dental inquiries through **Web Search**. It also provides ephemeral **memory** for multi-turn dialogue to keep the AI Agent **context-aware**. Additionally, it includes a **file upload feature** for oral images, along with a **computer vision model** (MobileNetV2) for oral disease classification.
 
 ## Table of Contents
 - [Overview](#overview)
