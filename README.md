@@ -1,6 +1,6 @@
 # RJ Dental Care PH
 
-An AI-powered dental care application by **RJ Dental Care PH**, a dental service provider offering both **onsite dental clinic** appointments and an **online AI assistant**. This system combines **FastAPI** (backend), **React** (frontend), and **LangChain** and **LangGraph** for an intelligent ReAct agent that can execute SQL queries on a PostgreSQL database or handle general dental inquiries. It also provides ephemeral memory for multi-turn dialogue and a computer vision agent for oral disease classification.
+An AI-powered dental care application by **RJ Dental Care PH**, a dental service provider offering both **onsite dental clinic** appointments and an **online AI assistant**. This system combines **FastAPI** (backend), **React** (frontend), and **LangChain** and **LangGraph** for an intelligent **ReAct AI Agent** that can execute SQL queries on a **PostgreSQL** database or handle general dental inquiries through **Web Search**. It also provides ephemeral **memory** for multi-turn dialogue to keep the AI Agent **context-aware**. Additionally, it includes a **file upload feature** for oral images, along with a **computer vision model** (MobileNetV2) for oral disease classification.
 
 ## Table of Contents
 - [Overview](#overview)
@@ -20,9 +20,7 @@ An AI-powered dental care application by **RJ Dental Care PH**, a dental service
 ## Demo
 Watch a short demo of RJ Dental Care PH in action:
 
-[![RJ Dental Care PH Demo](docs/demo-thumbnail.jpg)](docs/demo.mp4)
-
-*If the video does not play, [click here](docs/demo.mp4) to view the demo directly.*
+![RJ Dental Care PH Demo](docs/demo/demo.gif)
 
 ## Features
 - **Onsite Dental Clinic + AI Assistant**  
@@ -32,55 +30,55 @@ Watch a short demo of RJ Dental Care PH in action:
 - **Ephemeral Memory**  
   Implements a `WindowMemoryManager` to store conversation context in memory for each user session.
 - **Computer Vision for Disease Prediction**  
-  A dedicated `cv_agent.py` that identifies oral diseases from images, returning predictions and confidence scores.
+  A dedicated `oral_disease_classifier.py` that identifies oral diseases from images, returning predictions and confidence scores.
 - **Dockerized Deployment**  
   Frontend (React), backend (FastAPI), and database all run via Docker Compose for a seamless setup.
 
 ## Project Structure
 ```bash
 RJ-Dental-Care-PH/
-├── frontend/                           # React Frontend
+├── frontend/                               # React Frontend
 │   └── src/
 │   │   └── components/
-│   │   │   ├── ChatBox.js             # Chat UI, connects to /chat endpoint
-│   │   │   ├── ImageUpload.js         # For uploading images (e.g. oral disease prediction)
-│   │   │   ├── Navbar.js              # Navigation bar
+│   │   │   ├── ChatBox.js                  # Chat UI, connects to /chat endpoint
+│   │   │   ├── ImageUpload.js              # For uploading images (e.g. oral disease prediction)
+│   │   │   ├── Navbar.js                   # Navigation bar
 │   │   └── pages/
 │   │   │   ├── About.js
 │   │   │   ├── Contact.js
 │   │   │   ├── Home.js
 │   │   │   ├── Product.js
-│   │   ├── App.css                    # CSS for App.js
-│   │   ├── App.js                     # Main React component
+│   │   ├── App.css                         # CSS for App.js
+│   │   ├── App.js                          # Main React component
 │   │   ├── App.test.js
-│   │   ├── index.css                  # Global styles
-│   │   ├── index.js                   # Renders <App /> to DOM
+│   │   ├── index.css                       # Global styles
+│   │   ├── index.js                        # Renders <App /> to DOM
 │   │   ├── reportWebVitals.js
 │   │   ├── setupTests.js
-│   ├── Dockerfile                     # Docker config for React
+│   ├── Dockerfile                          # Docker config for React
 │   ├── package-lock.json
 │   ├── package.json
 │   ├── postcss.config.js
 │   ├── tailwind.config.js
-├── backend/                           # FastAPI Backend
+├── backend/                                # FastAPI Backend
 │   ├── app/
-│   │   ├── main.py                    # FastAPI entry point
+│   │   ├── main.py                         # FastAPI entry point
 │   │   ├── api/
-│   │   │   └── routes.py             # Defines /chat, /predict endpoints
+│   │   │   └── routes.py                   # Defines /chat, /predict endpoints
 │   │   ├── core/
-│   │   │   ├── agent.py              # Single ReAct agent w/ ephemeral memory
-│   │   │   ├── tool.py               # QueryPostgreSQLTool + optional SearchTool
-│   │   │   ├── memory.py             # WindowMemoryManager (in-memory conversation)
-│   │   │   └── cv_agent.py           # CV agent for oral disease classification
+│   │   │   ├── agent.py                    # Single ReAct agent w/ ephemeral memory
+│   │   │   ├── tool.py                     # QueryPostgreSQLTool + optional SearchTool
+│   │   │   ├── memory.py                   # WindowMemoryManager (in-memory conversation)
+│   │   │   └── oral_disease_classifier.py  # CV agent for oral disease classification
 │   │   └── models/
-│   │       └── oral_disease_model.h5 # Trained model for disease prediction
-│   ├── Dockerfile                     # Docker config for FastAPI
-│   ├── requirements.txt              # Python dependencies
+│   │       └── oral_disease_model.h5       # Trained model for disease prediction
+│   ├── Dockerfile                          # Docker config for FastAPI
+│   ├── requirements.txt                    # Python dependencies
 ├── database/
-│   ├── init.sql                       # Initialization SQL (tables, data)
-│   ├── Dockerfile                     # Docker config for PostgreSQL container
-├── docker-compose.yml                 # Multi-container setup (frontend, backend, DB)
-└── README.md                          # Project documentation
+│   ├── init.sql                            # Initialization SQL (tables, data)
+│   ├── Dockerfile                          # Docker config for PostgreSQL container
+├── docker-compose.yml                      # Multi-container setup (frontend, backend, DB)
+└── README.md                               # Project documentation
 ```
 
 ## Setup & Installation via Docker Compose
