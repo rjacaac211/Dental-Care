@@ -2,31 +2,36 @@
 
 An AI-powered dental care application by **RJ Dental Care PH**, a dental service provider offering both **onsite dental clinic** appointments and an **online AI assistant**. This system combines **FastAPI** (backend), **React** (frontend), and **LangChain** and **LangGraph** for an intelligent ReAct agent that can execute SQL queries on a PostgreSQL database or handle general dental inquiries. It also provides ephemeral memory for multi-turn dialogue and a computer vision agent for oral disease classification.
 
+
 ## Table of Contents
 - [Overview](#overview)
+- [Demo](#demo)
 - [Features](#features)
 - [Project Structure](#project-structure)
 - [Setup & Installation via Docker Compose](#setup--installation-via-docker-compose)
 - [Usage](#usage)
 
+
 ## Overview
+
 **RJ Dental Care PH** is both a **dental clinic** offering onsite appointments and an **online AI assistant** that can:
 1. **Execute SQL queries** on a PostgreSQL database (tables `patients` and `appointments`).
 2. **Answer general dental questions** (via a search tool).
 3. **Maintain ephemeral conversation** context through an in-memory store.
 4. **Perform image-based oral disease classification** using a computer vision model.
 
-## Features
-- **ReAct Agent**  
-  Uses [LangChain’s `create_react_agent`](https://python.langchain.com/docs/) to interpret user queries and decide whether to call the **PostgreSQL** tool or the **Search** tool.
-- **Ephemeral Memory**  
-  Implements a `WindowMemoryManager` that keeps conversation context in memory for each user session.
-- **React Frontend**  
-  Provides a chat UI that connects to the `/chat` endpoint. Supports image upload to `/predict`.
-- **Dockerized**  
-  Both frontend and backend run as containers via Docker Compose.
+
+## Demo
+
+Watch a short demo of RJ Dental Care PH in action:
+
+[![RJ Dental Care PH Demo](docs/demo-thumbnail.jpg)](docs/demo.mp4)
+
+*If the video does not play, [click here](docs/demo.mp4) to view the demo directly.*
+
 
 ## Features
+
 - **Onsite Dental Clinic + AI Assistant**  
   Manage and schedule clinic appointments onsite while leveraging the AI’s capabilities online.
 - **LangChain ReAct Agent**  
@@ -38,7 +43,9 @@ An AI-powered dental care application by **RJ Dental Care PH**, a dental service
 - **Dockerized Deployment**  
   Frontend (React), backend (FastAPI), and database all run via Docker Compose for a seamless setup.
 
+
 ## Project Structure
+
 ```bash
 RJ-Dental-Care-PH/
 ├── frontend/                           # React Frontend
@@ -85,7 +92,9 @@ RJ-Dental-Care-PH/
 └── README.md                          # Project documentation
 ```
 
+
 ## Setup & Installation via Docker Compose
+
 1. **Clone the Repository**  
    ```bash
    git clone https://github.com/yourusername/RJ-Dental-Care-PH.git
@@ -123,21 +132,6 @@ Create a .env file (or set system environment variables) with the following cont
     docker compose up --build
     ```
     This starts containers for the backend, frontend, and database. The React UI is served at http://localhost:3000, and the FastAPI API is available at http://localhost:8000.
-    
-## Usage
-- Chat Endpoint:
-    - `POST /api/chat` with JSON body `{ "session_id": "...", "message": "..." }`
-    - Receives the final AI response:
-    ```json
-    {
-        "final_response": "Query Results: [...]"
-    }
-    ```
-- Predict Endpoint (CV agent for oral disease classification):
-    - `POST /api/predict` with an uploaded image.
-    - Returns JSON with `{"prediction": "...", "confidence": ...}`.
-- Ephemeral Memory:
-    - The frontend stores a session_id (e.g. in localStorage) to maintain conversation context across messages.
 
 
 ## Usage
@@ -165,5 +159,6 @@ Create a .env file (or set system environment variables) with the following cont
   ```
 - Ephemeral Memory
   - The frontend uses a session_id (e.g. localStorage) to maintain multi-turn dialogues in memory.
+
 
 With the onsite clinic and online AI assistant, RJ Dental Care PH provides comprehensive oral healthcare both in person and via an intelligent chat interface.
