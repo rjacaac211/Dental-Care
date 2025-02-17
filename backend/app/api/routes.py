@@ -1,8 +1,8 @@
 import os
-from fastapi import APIRouter, HTTPException, Request, UploadFile, File
+from fastapi import APIRouter, HTTPException, UploadFile, File
 from pydantic import BaseModel
 
-from app.core.cv_agent import CVAgent
+from backend.app.core.oral_disease_classifier import OralDiseaseClassifier
 from app.core.agent import run_agent
 
 router = APIRouter()
@@ -22,7 +22,7 @@ async def chat_endpoint(req: ChatRequest):
 
 # Initialize the CVAgent with the model path.
 model_path = os.path.join(os.path.dirname(__file__), "../models/oral_disease_model.h5")
-cv_agent = CVAgent(model_path)
+cv_agent = OralDiseaseClassifier(model_path)
 
 @router.post("/predict")
 async def predict_image(file: UploadFile = File(...)):

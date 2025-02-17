@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 from tensorflow.keras.models import load_model
 
-class CVAgent:
+class OralDiseaseClassifier:
     def __init__(self, model_path: str):
         self.model = load_model(model_path)
         self.class_labels = ["Caries", "Gingivitis"]
