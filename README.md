@@ -2,7 +2,6 @@
 
 An AI-powered dental care application by **RJ Dental Care PH**, a dental service provider offering both **onsite dental clinic** appointments and an **online AI assistant**. This system combines **FastAPI** (backend), **React** (frontend), and **LangChain** and **LangGraph** for an intelligent ReAct agent that can execute SQL queries on a PostgreSQL database or handle general dental inquiries. It also provides ephemeral memory for multi-turn dialogue and a computer vision agent for oral disease classification.
 
-
 ## Table of Contents
 - [Overview](#overview)
 - [Demo](#demo)
@@ -11,27 +10,21 @@ An AI-powered dental care application by **RJ Dental Care PH**, a dental service
 - [Setup & Installation via Docker Compose](#setup--installation-via-docker-compose)
 - [Usage](#usage)
 
-
 ## Overview
-
 **RJ Dental Care PH** is both a **dental clinic** offering onsite appointments and an **online AI assistant** that can:
 1. **Execute SQL queries** on a PostgreSQL database (tables `patients` and `appointments`).
 2. **Answer general dental questions** (via a search tool).
 3. **Maintain ephemeral conversation** context through an in-memory store.
 4. **Perform image-based oral disease classification** using a computer vision model.
 
-
 ## Demo
-
 Watch a short demo of RJ Dental Care PH in action:
 
 [![RJ Dental Care PH Demo](docs/demo-thumbnail.jpg)](docs/demo.mp4)
 
 *If the video does not play, [click here](docs/demo.mp4) to view the demo directly.*
 
-
 ## Features
-
 - **Onsite Dental Clinic + AI Assistant**  
   Manage and schedule clinic appointments onsite while leveraging the AI’s capabilities online.
 - **LangChain ReAct Agent**  
@@ -43,9 +36,7 @@ Watch a short demo of RJ Dental Care PH in action:
 - **Dockerized Deployment**  
   Frontend (React), backend (FastAPI), and database all run via Docker Compose for a seamless setup.
 
-
 ## Project Structure
-
 ```bash
 RJ-Dental-Care-PH/
 ├── frontend/                           # React Frontend
@@ -92,14 +83,11 @@ RJ-Dental-Care-PH/
 └── README.md                          # Project documentation
 ```
 
-
 ## Setup & Installation via Docker Compose
-
 1. **Clone the Repository**  
    ```bash
    git clone https://github.com/yourusername/RJ-Dental-Care-PH.git
    cd RJ-Dental-Care-PH
-
 2. Configure Environment Variables
 Create a .env file (or set system environment variables) with the following content, replacing the placeholders as needed:
     ```bash
@@ -126,15 +114,14 @@ Create a .env file (or set system environment variables) with the following cont
     Note:
     - Never commit real API keys to version control.
     - In production or CI/CD, store these in a secrets manager or environment variable store.
-
 3. Run Docker Compose
     ```bash
     docker compose up --build
     ```
     This starts containers for the backend, frontend, and database. The React UI is served at http://localhost:3000, and the FastAPI API is available at http://localhost:8000.
 
-
 ## Usage
+RJ Dental Care PH provides an intelligent chat interface for managing dental queries and appointments, as well as a tool for oral disease classification. Below are instructions on how to interact with the API:
 - Chat Endpoint (`POST /api/chat`)
   - Send JSON:
   ```json
@@ -160,5 +147,7 @@ Create a .env file (or set system environment variables) with the following cont
 - Ephemeral Memory
   - The frontend uses a session_id (e.g. localStorage) to maintain multi-turn dialogues in memory.
 
+## Model Training & Experimentation
+For details on how the oral disease classification model was developed, evaluated, and refined, please refer to the [training](training/) folder.
 
 With the onsite clinic and online AI assistant, RJ Dental Care PH provides comprehensive oral healthcare both in person and via an intelligent chat interface.
