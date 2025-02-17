@@ -2,7 +2,7 @@ import os
 from fastapi import APIRouter, HTTPException, UploadFile, File
 from pydantic import BaseModel
 
-from backend.app.core.oral_disease_classifier import OralDiseaseClassifier
+from app.core.oral_disease_classifier import OralDiseaseClassifier
 from app.core.agent import run_agent
 
 router = APIRouter()
