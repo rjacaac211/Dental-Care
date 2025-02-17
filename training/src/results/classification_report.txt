@@ -1,0 +1,9 @@
+Classification Report:
+              precision    recall  f1-score   support
+
+      Caries       0.92      0.97      0.94       204
+  Gingivitis       0.97      0.91      0.94       204
+
+    accuracy                           0.94       408
+   macro avg       0.94      0.94      0.94       408
+weighted avg       0.94      0.94      0.94       408
