@@ -61,7 +61,6 @@ wrapt==1.17.0
 fastapi==0.95.2
 uvicorn==0.22.0
 
-
 psycopg2-binary
 langchain-openai
 langchain-core
@@ -69,3 +68,6 @@ langchain-community
 langgraph
 langsmith
 tavily-python
+
+httpx
+motor
