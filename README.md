@@ -1,6 +1,6 @@
 # RJ Dental Care PH — AI Agent and Computer Vision Web App
 
-An AI-powered dental care web application by **RJ Dental Care PH**, a dental service provider offering both **onsite dental clinic** appointments and an **online AI assistant**. This system combines **FastAPI** (backend), **React** (frontend), and **LangChain** and **LangGraph** for an intelligent **ReAct AI Agent** that can execute SQL queries on a **PostgreSQL** database or handle general dental inquiries through **web search**. It also provides ephemeral **memory** for multi-turn dialogue to keep the AI Agent **context-aware**. Additionally, it includes a **file upload feature** for oral images, along with a **computer vision model** (MobileNetV2) for oral disease classification.
+An AI-powered dental care web application by **RJ Dental Care PH**, a dental service provider offering both **onsite dental clinic** appointments and an **online AI assistant**. This system combines **FastAPI** (backend), **React** (frontend), and **LangChain** and **LangGraph** for an intelligent **ReAct AI Agent** that can execute SQL queries on a **PostgreSQL** database or handle general dental inquiries through **web search**. It also provides ephemeral **memory** for multi-turn dialogue to keep the AI Agent **context-aware**, includes a **file upload feature** for oral images along with a **computer vision model** (MobileNetV2) for oral disease classification, and processes voice queries by transcribing speech to text with Deepgram while persisting all chat messages to MongoDB Atlas so that the conversation history remains available even after a page reload.
 
 ## Table of Contents
 - [Overview](#overview)
@@ -9,13 +9,16 @@ An AI-powered dental care web application by **RJ Dental Care PH**, a dental ser
 - [Project Structure](#project-structure)
 - [Setup & Installation via Docker Compose](#setup--installation-via-docker-compose)
 - [Usage](#usage)
+- [Model Training & Experimentation](#model-training--experimentation)
 
 ## Overview
 **RJ Dental Care PH** is both a **dental clinic** offering onsite appointments and an **online AI assistant** that can:
-1. **Execute SQL queries** on a PostgreSQL database (tables `patients` and `appointments`).
-2. **Answer general dental questions** (via a search tool).
-3. **Maintain ephemeral conversation** context through an in-memory store.
+1. **Answer general dental questions** (via a search tool).
+2. **Process voice input** by transcribing speech to text using Deepgram’s Speech-to-Text API.
+3. **Execute SQL queries** on a PostgreSQL database (tables `patients` and `appointments`).
 4. **Perform image-based oral disease classification** using a computer vision model.
+5. **Maintain ephemeral conversation** context through an in-memory store.
+6. **Persist chat history** by saving all chat messages (both user and bot) to MongoDB Atlas, ensuring that previous conversation history is loaded on page reload.
 
 ## Demo
 Watch a short demo of RJ Dental Care PH in action:
@@ -25,12 +28,16 @@ Watch a short demo of RJ Dental Care PH in action:
 ## Features
 - **Onsite Dental Clinic + AI Assistant**  
   Manage and schedule clinic appointments onsite while leveraging the AI’s capabilities online.
+- **Voice-Enabled Chat Interface**  
+  Supports voice input via Deepgram’s Speech-to-Text API.
 - **LangChain ReAct Agent**  
-  Employs a ReAct agent to interpret user queries—either calling the **PostgreSQL** tool for database actions or the **Search** tool for dental health info.
-- **Ephemeral Memory**  
-  Implements a `WindowMemoryManager` to store conversation context in memory for each user session.
+  Interprets user queries, either calling the **PostgreSQL** tool for database actions or the **Search** tool for dental health info.
 - **Computer Vision for Disease Prediction**  
-  A dedicated `oral_disease_classifier.py` that identifies oral diseases from images, returning predictions and confidence scores.
+  Identifies oral diseases from uploaded images using a dedicated computer vision model.
+- **Ephemeral Memory**  
+  Uses a `WindowMemoryManager` to store conversation context for multi-turn dialogues.
+- **Chat History Persistence**  
+  Saves all chat messages to **MongoDB Atlas** so that previous conversation history is automatically loaded on page reload.
 - **Dockerized Deployment**  
   Frontend (React), backend (FastAPI), and database all run via Docker Compose for a seamless setup.
 
@@ -40,7 +47,7 @@ RJ-Dental-Care-PH/
 ├── frontend/                               # React Frontend
 │   └── src/
 │   │   └── components/
-│   │   │   ├── ChatBox.js                  # Chat UI, connects to /chat endpoint
+│   │   │   ├── ChatBox.js                  # Chat UI (integrates voice input and chat history persistence)
 │   │   │   ├── ImageUpload.js              # For uploading images (e.g. oral disease prediction)
 │   │   │   ├── Navbar.js                   # Navigation bar
 │   │   └── pages/
@@ -64,12 +71,13 @@ RJ-Dental-Care-PH/
 │   ├── app/
 │   │   ├── main.py                         # FastAPI entry point
 │   │   ├── api/
-│   │   │   └── routes.py                   # Defines /chat, /predict endpoints
+│   │   │   └── routes.py                   # Defines endpoints: /chat, /predict, /transcribe, /save_chat, /chat_history
 │   │   ├── core/
-│   │   │   ├── agent.py                    # Single ReAct agent w/ ephemeral memory
-│   │   │   ├── tool.py                     # QueryPostgreSQLTool + optional SearchTool
+│   │   │   ├── agent.py                    # ReAct agent w/ ephemeral memory
+│   │   │   ├── tool.py                     # QueryPostgreSQLTool and SearchTool
 │   │   │   ├── memory.py                   # WindowMemoryManager (in-memory conversation)
-│   │   │   └── oral_disease_classifier.py  # CV agent for oral disease classification
+│   │   │   └── database.py                 # Initializes MongoDB client and exposes the database
+│   │   │   └── oral_disease_classifier.py  # Computer vision model for oral disease classification
 │   │   └── models/
 │   │       └── oral_disease_model.h5       # Trained model for disease prediction
 │   ├── Dockerfile                          # Docker config for FastAPI
@@ -77,7 +85,7 @@ RJ-Dental-Care-PH/
 ├── database/
 │   ├── init.sql                            # Initialization SQL (tables, data)
 │   ├── Dockerfile                          # Docker config for PostgreSQL container
-├── docker-compose.yml                      # Multi-container setup (frontend, backend, DB)
+├── docker-compose.yml                      # Multi-container setup (frontend, backend, database)
 └── README.md                               # Project documentation
 ```
 
@@ -87,7 +95,7 @@ RJ-Dental-Care-PH/
    git clone https://github.com/yourusername/RJ-Dental-Care-PH.git
    cd RJ-Dental-Care-PH
 2. Configure Environment Variables
-Create a .env file (or set system environment variables) with the following content, replacing the placeholders as needed:
+Create a `.env` file (or set system environment variables) with the following content, replacing the placeholders as needed:
     ```bash
     # .env
     # FastAPI settings
@@ -108,10 +116,16 @@ Create a .env file (or set system environment variables) with the following cont
 
     # Tavily
     TAVILY_API_KEY=tvly-YourTavilyKeyHere
+
+    # Deepgram (for speech-to-text)
+    DEEPGRAM_API_KEY=your_deepgram_api_key
+
+    # MongoDB Atlas (for chat history persistence)
+    MONGODB_URI=mongodb+srv://your_user:your_password@cluster0.mongodb.net/chat_history_db?retryWrites=true&w=majority
     ```
     Note:
     - Never commit real API keys to version control.
-    - In production or CI/CD, store these in a secrets manager or environment variable store.
+    - In production, store these in a sercure secrets manager.
 3. Run Docker Compose
     ```bash
     docker compose up --build
@@ -119,7 +133,7 @@ Create a .env file (or set system environment variables) with the following cont
     This starts containers for the backend, frontend, and database. The React UI is served at http://localhost:3000, and the FastAPI API is available at http://localhost:8000.
 
 ## Usage
-RJ Dental Care PH provides an intelligent chat interface for managing dental queries and appointments, as well as a tool for oral disease classification. Below are instructions on how to interact with the API:
+RJ Dental Care PH provides an intelligent voice-supported chat interface for managing dental queries and appointments, as well as a tool for oral disease classification. Below are instructions on how to interact with the API:
 - Chat Endpoint (`POST /api/chat`)
   - Send JSON:
   ```json
@@ -134,7 +148,13 @@ RJ Dental Care PH provides an intelligent chat interface for managing dental que
     "final_response": "Query Results: [...]"
   }
   ```
-- Predict Endpoint (POST /api/predict)
+- Speech-to-Text Endpoint (`POST /api/transcribe`):
+  - Use the record button in the chat UI to capture audio. The recorded audio is sent to Deepgram for transcription, and the resulting text is populated into the chat input.
+- Save Chat History Endpoint (`POST /api/save_chat`):
+  - ach chat message (user and bot) is saved to MongoDB Atlas, so that conversation history is automatically loaded when the page is reloaded.
+- Get Chat History Endpoint (`GET /api/chat_history/{session_id}`):
+  - The frontend fetches previous messages using the session ID (stored in localStorage) to display the conversation history on page load
+- Predict Endpoint (`POST /api/predict`):
   - Upload an image to get a classification:
   ```json
   {
