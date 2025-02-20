@@ -1,70 +1,95 @@
-# Getting Started with Create React App
+# RJ Dental Care PH — Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This **React**-based frontend provides the user interface for the RJ Dental Care PH application. It features:
+- **Chat Interface** with voice input support using the Deepgram API.
+- **Oral Disease Image Upload** for classification (Caries or Gingivitis).
+- **React Router** for navigating different pages (Home, About, Products, Contact).
 
-## Available Scripts
+## Table of Contents
+- [Overview](#overview)
+- [Folder Structure](#folder-structure)
+- [Features](#features)
+- [Setup & Installation](#setup--installation)
+- [How It Works](#how-it-works)
 
-In the project directory, you can run:
+## Overview
 
-### `npm start`
+The **frontend** communicates with the FastAPI **backend** to handle:
+- **Chat messages** and **voice transcription**.
+- **Image prediction** for oral diseases.
+- **Chat history** retrieval from MongoDB via the backend API.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Folder Structure
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```
+frontend/
+├── Dockerfile                  # Docker configuration for building the React frontend
+├── package.json                # npm metadata and scripts
+├── package-lock.json           # Generated lock file with exact dependency versions
+├── postcss.config.js           # PostCSS configuration (for Tailwind)
+├── tailwind.config.js          # TailwindCSS configuration
+└── src/
+    ├── App.css                 # Basic styling
+    ├── App.js                  # Main React component with routing
+    ├── index.css               # Tailwind imports (base, components, utilities)
+    ├── index.js                # Renders <App /> into the DOM
+    ├── reportWebVitals.js      # Performance metrics (optional)
+    ├── components/
+    │   ├── ChatBox.js          # Chat UI with voice input & message persistence
+    │   ├── ImageUpload.js      # Image upload & prediction feature
+    │   └── Navbar.js           # Navigation bar
+    └── pages/
+        ├── About.js            # About page
+        ├── Contact.js          # Contact page
+        ├── Home.js             # Home page
+        └── Products.js         # Products page
+```
 
-### `npm test`
+## Features
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Voice-Enabled Chat**: Users can record audio and receive transcriptions from Deepgram.
+- **Oral Disease Prediction**: Upload images to classify Caries or Gingivitis.
+- **Simple Routing**: Navigate between Home, About, Products, and Contact.
+- **TailwindCSS** for styling.
 
-### `npm run build`
+## Setup & Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. **Install Dependencies**
+    If you're **not** using Docker Compose and want to run the frontend standalone, install dependencies via:
+    ```bash
+    cd frontend
+    npm install
+    ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. **Run with Docker**  
+   The recommended approach is to use Docker (or Docker Compose) for a consistent environment:
+    ```bash
+    cd backend
+    docker compose up -d --build frontend
+    ```
+    This will build and start the frontend container on port `3000`.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    > **Note:** Typically, this frontend is part of a multi-container setup (alongside the backend and database), orchestrated by Docker Compose. 
+    > Refer to the project's main [README](../README.md) for details on full-stack deployment.
 
-### `npm run eject`
+## How It Works
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. **Routing & Pages**  
+   - The application uses **React Router** (`BrowserRouter`) to handle different pages (Home, About, Products, Contact).  
+   - The `Navbar` component provides links to these pages for easy navigation.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. **Home Page**  
+   - Displays two main features:
+     - **ImageUpload**: Allows users to upload an oral image, which is sent to the backend (`/api/predict`) for classification (e.g., Caries or Gingivitis). The result is then displayed on the page.
+     - **ChatBox**: Provides a chat interface that sends messages to the backend (`/api/chat`) and displays bot responses. It also supports:
+       - **Voice Input**: Users can record audio and have it transcribed via the backend (`/api/transcribe`) using Deepgram’s Speech-to-Text API.
+       - **Chat History Persistence**: A unique `session_id` is stored in `localStorage` so that past conversation messages can be retrieved from MongoDB whenever the user revisits or reloads the page.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+3. **State Management & UI Updates**  
+   - **React Hooks** (`useState`, `useEffect`) are used to manage component state (e.g., storing messages, tracking if audio is recording).
+   - **Axios** handles all network requests to the backend. The responses are used to update the UI in real time.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+4. **Styling**  
+   - **TailwindCSS** is used for rapid styling through utility classes. Additional custom CSS is provided in `App.css`.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Overall, the frontend provides a clean, interactive interface for uploading oral images and chatting with the AI Assistant, with seamless communication to the FastAPI backend for all data processing. This modular approach allows easy expansion for new pages, components, and features.
