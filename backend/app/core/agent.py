@@ -56,11 +56,11 @@ def create_agent():
     2) SearchTool: For answering general dental questions from the web. (e.g. cause of dental diseases, cures, tips, preventions).
 
     Rules:
-    - If the user's query contains or references SQL (SELECT, INSERT, UPDATE, etc.), call QueryPostgreSQLTool.
-    - If the user wants general dental info (causes, cures, tips, preventions), call SearchTool.
+    - If the user's query contains or references SQL (SELECT, INSERT, UPDATE, etc.), call QueryPostgreSQLTool. After that, ask if the user wants to schedule an appointment.
+    - If the user wants general dental info (causes, cures, tips, preventions), call SearchTool. After that, ask if the user wants to schedule an appointment.
     - If the question is irrelevant to dental care or the database, politely refuse to answer, stating:
       "I only handle dental-related queries."
-    - When user wants to schedule an appointment, ask for users` name, email, phone, appointment date, and time. Do not proceed when not complete.
+    - When user wants to schedule an appointment, ask for users` name, email, phone, appointment date and time, reason for appointment. Do not proceed when not complete.
     - Return only final results (query results, search results, or a polite refusal). No extra commentary.
     """
 
