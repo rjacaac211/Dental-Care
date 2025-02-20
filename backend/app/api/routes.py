@@ -6,7 +6,7 @@ from pydantic import BaseModel
 
 from app.core.oral_disease_classifier import OralDiseaseClassifier
 from app.core.agent import run_agent
-from app.core.database import db
+from backend.app.core.chat_history_db import db
 
 router = APIRouter()
 

@@ -60,6 +60,7 @@ def create_agent():
     - If the user wants general dental info (causes, cures, tips, preventions), call SearchTool.
     - If the question is irrelevant to dental care or the database, politely refuse to answer, stating:
       "I only handle dental-related queries."
+    - When user wants to schedule an appointment, ask for users` name, email, phone, appointment date, and time. Do not proceed when not complete.
     - Return only final results (query results, search results, or a polite refusal). No extra commentary.
     """
 
