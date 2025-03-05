@@ -9,7 +9,6 @@ This folder contains additional resources and documentation for **RJ Dental Care
 ```
 docs/
 ├── demo/                                
-│   ├── demo-thumbnail.jpg                          # Thumbnail image preview
 │   ├── demo.gif                                    # Animated GIF showcasing app functionality
 │   └── demo.mp4                                    # Video demonstration of the application
 └── Oral Disease Classification Project Report.pdf  # In-depth report on the classification model
