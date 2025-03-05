@@ -1,6 +1,6 @@
-# RJ Dental Care PH — AI Agent and Computer Vision Web App
+# Dental Care PH — AI Agent and Computer Vision Web App
 
-RJ Dental Care PH is an AI-powered dental care web application that combines onsite dental clinic appointments with an online AI assistant. It uses **FastAPI** (backend), **React** (frontend), and a **ReAct AI Agent** built with **LangChain** and **LangGraph**, enabling the system to run SQL queries on a **PostgreSQL** database or answer general dental inquiries via web search. The platform supports voice input through **Deepgram**, maintains multi-turn dialogue context using ephemeral memory, and includes a file upload feature for oral images alongside a **MobileNetV2**-based computer vision model for oral disease classification. All chat interactions are persisted in **MongoDB Atlas**, ensuring conversation history remains intact even after a page reload.
+Dental Care PH is an AI-powered dental care web application that combines onsite dental clinic appointments with an online AI assistant. It uses **FastAPI** (backend), **React** (frontend), and a **ReAct AI Agent** built with **LangChain** and **LangGraph**, enabling the system to run SQL queries on a **PostgreSQL** database or answer general dental inquiries via web search. The platform supports voice input through **Deepgram**, maintains multi-turn dialogue context using ephemeral memory, and includes a file upload feature for oral images alongside a **MobileNetV2**-based computer vision model for oral disease classification. All chat interactions are persisted in **MongoDB Atlas**, ensuring conversation history remains intact even after a page reload.
 
 ## Table of Contents
 - [Overview](#overview)
@@ -21,9 +21,9 @@ RJ Dental Care PH is an AI-powered dental care web application that combines ons
 6. **Persist chat history** by saving all chat messages (both user and bot) to MongoDB Atlas, ensuring that previous conversation history is loaded on page reload.
 
 ## Demo
-Watch a short demo of RJ Dental Care PH in action:
+Watch a short demo of Dental Care PH in action:
 
-![RJ Dental Care PH Demo](docs/demo/demo.gif)
+![Dental Care PH Demo](docs/demo/demo.gif)
 
 ## Features
 - **Onsite Dental Clinic + AI Assistant**  
@@ -44,7 +44,7 @@ Watch a short demo of RJ Dental Care PH in action:
 ## Project Structure
 
 ```
-RJ-Dental-Care-PH/
+Dental-Care-PH/
 ├── frontend/                               # React Frontend
 │   └── src/
 │   │   └── components/
