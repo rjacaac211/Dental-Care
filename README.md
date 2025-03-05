@@ -86,7 +86,6 @@ Dental-Care-PH/
 │   └── Dockerfile                          # Docker config for PostgreSQL container
 ├── docs/                                   # Documentation & media
 │   ├── demo/
-│   │   ├── demo-thumbnail.jpg
 │   │   ├── demo.gif
 │   │   └── demo.mp4
 │   └── Oral Disease Classification Project Report.pdf
