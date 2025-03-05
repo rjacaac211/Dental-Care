@@ -210,9 +210,22 @@ const ChatBox = () => {
         )}
       </div>
       <div className="flex mt-4">
+      <button
+          onClick={handleRecordToggle}
+          className={`${
+            isRecording ? "bg-blue-500" : "bg-gray-500"
+          } text-white px-4 py-2 hover:opacity-90`}
+        >
+            {isRecording ? (
+              <StopIcon className="w-5 h-5" />
+            ) : (
+              <MicrophoneIcon className="w-5 h-5" />
+            )}
+          {/* {isRecording ? "Stop Recording" : "Start Recording"} */}
+        </button>
         <input
           type="text"
-          className="flex-1 px-4 py-2 border rounded-l-lg"
+          className="flex-1 px-4 py-2 border"
           placeholder="Type your message..."
           value={chatInput}
           onChange={(e) => setChatInput(e.target.value)}
@@ -231,24 +244,7 @@ const ChatBox = () => {
           )}
           {/* {isLoading ? "Sending..." : "Send"} */}
         </button>
-      </div>
-
-      {/* Record Button */}
-      <div className="flex mt-4">
-        <button
-          onClick={handleRecordToggle}
-          className={`${
-            isRecording ? "bg-blue-500" : "bg-gray-500"
-          } text-white px-4 py-2 rounded-full hover:opacity-90`}
-        >
-            {isRecording ? (
-              <StopIcon className="w-5 h-5" />
-            ) : (
-              <MicrophoneIcon className="w-5 h-5" />
-            )}
-          {/* {isRecording ? "Stop Recording" : "Start Recording"} */}
-        </button>
-      </div>
+      </div>   
     </div>
   );
 };
