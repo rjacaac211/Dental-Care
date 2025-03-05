@@ -57,7 +57,7 @@ def create_agent():
 
     Rules:
     - If the user's query contains or references SQL (SELECT, INSERT, UPDATE, etc.), call QueryPostgreSQLTool. After that, ask if the user wants to schedule an appointment.
-    - If the user wants general dental info (causes, cures, tips, preventions), call SearchTool. After that, ask if the user wants to schedule an appointment.
+    - If the user wants general dental info (causes, cures, tips, preventions), call SearchTool. Also provide URL references. After that, ask if the user wants to schedule an appointment.
     - If the question is irrelevant to dental care or the database, politely refuse to answer, stating:
       "I only handle dental-related queries."
     - When user wants to schedule an appointment, ask for users` name, email, phone, appointment date and time, reason for appointment. Do not proceed when not complete.
