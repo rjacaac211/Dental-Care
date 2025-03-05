@@ -1,5 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import axios from "axios";
+import {
+  PaperAirplaneIcon,
+  ArrowPathIcon,
+  MicrophoneIcon,
+  StopIcon
+} from "@heroicons/react/24/outline";
 
 const ChatBox = () => {
   const [chatInput, setChatInput] = useState("");
@@ -183,19 +191,25 @@ const ChatBox = () => {
 
   // ------------- RENDER -------------
   return (
-    <div className="bg-gray-200 p-4 rounded-lg mt-8 max-w-2xl mx-auto">
-      <div className="bg-gray-300 rounded-lg p-4 h-64 overflow-y-auto">
+    <div className="bg-gray-200 p-6 rounded-lg mt-8 max-w-4xl mx-auto">
+      <div className="bg-gray-300 rounded-lg p-4 h-96 overflow-y-auto space-y-2">
         {messages.length === 0 ? (
           <p className="text-gray-600">Chat conversation will appear here...</p>
         ) : (
           messages.map((msg, idx) => (
-            <div key={idx} className="mb-2">
-              <strong>{msg.sender}:</strong> {msg.text}
+            <div key={idx} className={`flex ${msg.sender === "You" ? "justify-end" : "justify-start"}`}>
+              <div className={`rounded-lg p-3 max-w-md break-words ${msg.sender === "You" ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-800"}`}>
+                <div className="markdown-content">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    {msg.text}
+                  </ReactMarkdown>
+                </div>
+              </div>
             </div>
           ))
         )}
       </div>
-      <div className="flex mt-2">
+      <div className="flex mt-4">
         <input
           type="text"
           className="flex-1 px-4 py-2 border rounded-l-lg"
@@ -210,19 +224,29 @@ const ChatBox = () => {
           onClick={handleSend}
           disabled={isLoading}
         >
-          {isLoading ? "Sending..." : "Send"}
+          {isLoading ? (
+            <ArrowPathIcon className="w-5 h-5 animate-spin" />
+          ) : (
+            <PaperAirplaneIcon className="w-5 h-5 transform" />
+          )}
+          {/* {isLoading ? "Sending..." : "Send"} */}
         </button>
       </div>
 
       {/* Record Button */}
-      <div className="flex mt-2">
+      <div className="flex mt-4">
         <button
           onClick={handleRecordToggle}
           className={`${
-            isRecording ? "bg-red-500" : "bg-green-500"
-          } text-white px-4 py-2 rounded hover:opacity-90`}
+            isRecording ? "bg-blue-500" : "bg-gray-500"
+          } text-white px-4 py-2 rounded-full hover:opacity-90`}
         >
-          {isRecording ? "Stop Recording" : "Start Recording"}
+            {isRecording ? (
+              <StopIcon className="w-5 h-5" />
+            ) : (
+              <MicrophoneIcon className="w-5 h-5" />
+            )}
+          {/* {isRecording ? "Stop Recording" : "Start Recording"} */}
         </button>
       </div>
     </div>
