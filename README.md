@@ -1,4 +1,4 @@
-# Dental Care PH — AI Agent and Computer Vision Web App
+# Dental Care PH — AI-Powered Oral Health Assistant
 
 Dental Care PH is an AI-powered dental care web application that combines onsite dental clinic appointments with an online AI assistant. It uses **FastAPI** (backend), **React** (frontend), and a **ReAct AI Agent** built with **LangChain** and **LangGraph**, enabling the system to run SQL queries on a **PostgreSQL** database or answer general dental inquiries via web search. The platform supports voice input through **Deepgram**, maintains multi-turn dialogue context using ephemeral memory, and includes a file upload feature for oral images alongside a **MobileNetV2**-based computer vision model for oral disease classification. All chat interactions are persisted in **MongoDB Atlas**, ensuring conversation history remains intact even after a page reload.
 
