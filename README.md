@@ -1,6 +1,6 @@
-# Dental Care PH — AI-Powered Oral Health Assistant
+# Dental Care — AI-Powered Oral Health Assistant
 
-Dental Care PH is an AI-powered dental care web application that combines onsite dental clinic appointments with an online AI assistant. It uses **FastAPI** (backend), **React** (frontend), and a **ReAct AI Agent** built with **LangChain** and **LangGraph**, enabling the system to run SQL queries on a **PostgreSQL** database or answer general dental inquiries via web search. The platform supports voice input through **Deepgram**, maintains multi-turn dialogue context using ephemeral memory, and includes a file upload feature for oral images alongside a **MobileNetV2**-based computer vision model for oral disease classification. All chat interactions are persisted in **MongoDB Atlas**, ensuring conversation history remains intact even after a page reload.
+Dental Care is an AI-powered dental care web application that combines onsite dental clinic appointments with an online AI assistant. It uses **FastAPI** (backend), **React** (frontend), and a **ReAct AI Agent** built with **LangChain** and **LangGraph**, enabling the system to run SQL queries on a **PostgreSQL** database or answer general dental inquiries via web search. The platform supports voice input through **Deepgram**, maintains multi-turn dialogue context using ephemeral memory, and includes a file upload feature for oral images alongside a **MobileNetV2**-based computer vision model for oral disease classification. All chat interactions are persisted in **MongoDB Atlas**, ensuring conversation history remains intact even after a page reload.
 
 ## Table of Contents
 - [Overview](#overview)
@@ -12,7 +12,7 @@ Dental Care PH is an AI-powered dental care web application that combines onsite
 - [Model Training & Experimentation](#model-training--experimentation)
 
 ## Overview
-**RJ Dental Care PH** is both a **dental clinic** offering onsite appointments and an **online AI assistant** that can:
+**RJ Dental Care** is both a **dental clinic** offering onsite appointments and an **online AI assistant** that can:
 1. **Answer general dental questions** (via a search tool).
 2. **Process voice input** by transcribing speech to text using Deepgram’s Speech-to-Text API.
 3. **Execute SQL queries** on a PostgreSQL database (tables `patients` and `appointments`).
@@ -21,9 +21,9 @@ Dental Care PH is an AI-powered dental care web application that combines onsite
 6. **Persist chat history** by saving all chat messages (both user and bot) to MongoDB Atlas, ensuring that previous conversation history is loaded on page reload.
 
 ## Demo
-Watch a short demo of Dental Care PH in action:
+Watch a short demo of Dental Care in action:
 
-![Dental Care PH Demo](docs/demo/demo.gif)
+![Dental Care Demo](docs/demo/demo.gif)
 
 ## Features
 - **Onsite Dental Clinic + AI Assistant**  
@@ -139,7 +139,7 @@ Create a `.env` file (or set system environment variables) with the following co
 
 ## Usage
 
-RJ Dental Care PH provides an intelligent voice-supported chat interface for managing dental queries and appointments, as well as a tool for oral disease classification. Below are instructions on how to interact with the API:
+RJ Dental Care provides an intelligent voice-supported chat interface for managing dental queries and appointments, as well as a tool for oral disease classification. Below are instructions on how to interact with the API:
 - **Chat Endpoint** (`POST /api/chat`)
   - Send JSON:
   ```json
@@ -181,4 +181,4 @@ For details on how the oral disease classification model was developed, evaluate
 
 ---
 
-With the onsite clinic and online AI assistant, **RJ Dental Care PH** provides comprehensive oral healthcare both in person and via an intelligent chat interface.
+With the onsite clinic and online AI assistant, **RJ Dental Care** provides comprehensive oral healthcare both in person and via an intelligent chat interface.
