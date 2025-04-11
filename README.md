@@ -12,7 +12,7 @@ Dental Care is an AI-powered dental care web application that combines onsite de
 - [Model Training & Experimentation](#model-training--experimentation)
 
 ## Overview
-**RJ Dental Care** is both a **dental clinic** offering onsite appointments and an **online AI assistant** that can:
+**Dental Care** is both a **dental clinic** offering onsite appointments and an **online AI assistant** that can:
 1. **Answer general dental questions** (via a search tool).
 2. **Process voice input** by transcribing speech to text using Deepgram’s Speech-to-Text API.
 3. **Execute SQL queries** on a PostgreSQL database (tables `patients` and `appointments`).
@@ -96,8 +96,8 @@ Dental-Care-PH/
 
 1. **Clone the Repository**  
    ```bash
-   git clone https://github.com/yourusername/RJ-Dental-Care-PH.git
-   cd RJ-Dental-Care-PH
+   git clone https://github.com/rjacaac211/Dental-Care.git
+   cd Dental-Care
    ```
 
 2. **Configure Environment Variables**
@@ -110,7 +110,7 @@ Create a `.env` file (or set system environment variables) with the following co
     # Database settings
     POSTGRES_USER=your_username
     POSTGRES_PASSWORD=your_password
-    POSTGRES_DB=rj_dental_db
+    POSTGRES_DB=dental_db
 
     # OpenAI API Key
     OPENAI_API_KEY=sk-YourOpenAIKeyHere
@@ -118,7 +118,7 @@ Create a `.env` file (or set system environment variables) with the following co
     # LangChain
     LANGCHAIN_TRACING_V2=true
     LANGCHAIN_API_KEY=lsv2_pt_YourLangChainKey
-    LANGSMITH_PROJECT="rj-dental-care-backend"
+    LANGSMITH_PROJECT="dental-care-backend"
 
     # Tavily
     TAVILY_API_KEY=tvly-YourTavilyKeyHere
@@ -139,7 +139,7 @@ Create a `.env` file (or set system environment variables) with the following co
 
 ## Usage
 
-RJ Dental Care provides an intelligent voice-supported chat interface for managing dental queries and appointments, as well as a tool for oral disease classification. Below are instructions on how to interact with the API:
+Dental Care provides an intelligent voice-supported chat interface for managing dental queries and appointments, as well as a tool for oral disease classification. Below are instructions on how to interact with the API:
 - **Chat Endpoint** (`POST /api/chat`)
   - Send JSON:
   ```json
@@ -181,4 +181,4 @@ For details on how the oral disease classification model was developed, evaluate
 
 ---
 
-With the onsite clinic and online AI assistant, **RJ Dental Care** provides comprehensive oral healthcare both in person and via an intelligent chat interface.
+With the onsite clinic and online AI assistant, **Dental Care** provides comprehensive oral healthcare both in person and via an intelligent chat interface.
